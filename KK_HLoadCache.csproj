@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>KK_HLoadCache</AssemblyName>
+    <RootNamespace>KK_HLoadCache</RootNamespace>
+    <Description>Reduce the freeze when an H position starts or changes, and measure where loading time goes</Description>
+    <Version>0.3.0</Version>
+    <TargetFramework>net35</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="DeployToGame" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
+          DestinationFolder="$(KKPath)\BepInEx\plugins"
+          SkipUnchangedFiles="true" />
+    <Message Text="Deployed: $(AssemblyName).dll → BepInEx/plugins/" Importance="high" />
+  </Target>
+
+</Project>

@@ -1,0 +1,51 @@
+<Project>
+
+  <!--
+    Build setup:
+    This project references the game / BepInEx assemblies from your local Koikatsu install.
+    Point $(KKPath) at that folder in ONE of these ways:
+      - Set an environment variable  KKPath = <your Koikatsu folder>
+      - Or pass it on the command line:  dotnet build -c Release -p:KKPath="C:\Games\Koikatsu"
+      - Or create a local (git-ignored) "Local.props" next to this file:
+            <Project><PropertyGroup><KKPath>C:\Games\Koikatsu</KKPath></PropertyGroup></Project>
+  -->
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+    <DebugType Condition="'$(Configuration)' == 'Debug'">full</DebugType>
+  </PropertyGroup>
+
+  <!-- Optional local override for KKPath (not committed). -->
+  <Import Project="$(MSBuildThisFileDirectory)Local.props" Condition="Exists('$(MSBuildThisFileDirectory)Local.props')" />
+
+  <Target Name="_CheckKKPath" BeforeTargets="ResolveAssemblyReferences" Condition="'$(KKPath)' == ''">
+    <Error Text="KKPath is not set. Set the KKPath environment variable (or pass -p:KKPath=..., or create Local.props) pointing to your Koikatsu install folder." />
+  </Target>
+
+  <!-- Game / framework references (not copied to output). -->
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(KKPath)\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(KKPath)\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(KKPath)\Koikatu_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(KKPath)\Koikatu_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(KKPath)\Koikatu_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

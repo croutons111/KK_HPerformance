@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+.idea/
+
+# Dev notes kept in private KK_ModDev_Docs repo
+DEVLOG.md
+
+# Local machine override for KKPath (build reference path)
+Local.props
