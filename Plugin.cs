@@ -14,7 +14,7 @@ namespace KK_HLoadCache
     {
         public const string PluginGuid    = "KK_HLoadCache";
         public const string PluginName    = "KK_HLoadCache";
-        public const string PluginVersion = "0.3.0";
+        public const string PluginVersion = "0.4.1";
 
         internal static new ManualLogSource Logger;
         internal static ConfigEntry<bool> MasterEnabled;
@@ -28,6 +28,7 @@ namespace KK_HLoadCache
 
             ControllerCache.Init(Config, Logger, () => IsEnabled, gameObject);
             ListTextCache.Init(Config, Logger, () => IsEnabled, gameObject);
+            BundleLookupCache.Init(Config, Logger, () => IsEnabled, gameObject);
             LoadProfiler.Init(Config, Logger, () => IsEnabled, gameObject);
 
             // ビルドマーカー: 実際に読み込まれた DLL の更新時刻（ゲームを再起動しないと DLL は再ロードされない）

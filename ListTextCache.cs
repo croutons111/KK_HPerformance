@@ -11,8 +11,7 @@ namespace KK_HLoadCache
     //   GlobalMethod.LoadAllListText / LoadAllListTextFromList は毎回フォルダ内の全バンドルを列挙し、
     //   各バンドルのアセット名を照合→開く→TextAsset を読む→閉じる、を繰り返す（1回 約30ms・体位変更1回で 10〜14 回）。
     //   結果は引数とバンドルの中身だけで決まる（バンドル一覧は起動時に Sideloader が確定）＝同じ引数なら同じ結果。
-    //   ★GetAssetBundleNameListFromPath はキャッシュしない: Sideloader が postfix で mod のバンドルを足すので、
-    //     prefix で横取りすると二重に足される。
+    //   中で呼ぶ GetAssetBundleNameListFromPath / AssetBundleCheck.GetAllAssetName は BundleLookupCache 側でキャッシュ（3d）。
     //   キャッシュに入れる/返すのは H シーン中だけ。保持は起動中ずっと（短い文字列だけ・数 MB 程度）。
     internal static class ListTextCache
     {
