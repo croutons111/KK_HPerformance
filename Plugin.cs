@@ -14,7 +14,7 @@ namespace KK_HLoadCache
     {
         public const string PluginGuid    = "KK_HLoadCache";
         public const string PluginName    = "KK_HLoadCache";
-        public const string PluginVersion = "0.6.0";
+        public const string PluginVersion = "0.7.0";
 
         internal static new ManualLogSource Logger;
         internal static ConfigEntry<bool> MasterEnabled;
@@ -32,6 +32,7 @@ namespace KK_HLoadCache
             LoadProfiler.Init(Config, Logger, () => IsEnabled, gameObject);
             FrameProfiler.Init(Config, Logger, () => IsEnabled, gameObject);
             DynamicBoneLimiter.Init(Config, Logger, () => IsEnabled, gameObject);
+            DynamicBoneCulling.Init(Config, Logger, () => IsEnabled, gameObject);
 
             // ビルドマーカー: 実際に読み込まれた DLL の更新時刻（ゲームを再起動しないと DLL は再ロードされない）
             string dllBuild;

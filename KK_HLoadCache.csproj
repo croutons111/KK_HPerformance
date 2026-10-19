@@ -4,7 +4,7 @@
     <AssemblyName>KK_HLoadCache</AssemblyName>
     <RootNamespace>KK_HLoadCache</RootNamespace>
     <Description>Reduce the freeze when an H position starts or changes, and measure where loading time goes</Description>
-    <Version>0.6.0</Version>
+    <Version>0.7.0</Version>
     <TargetFramework>net35</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
