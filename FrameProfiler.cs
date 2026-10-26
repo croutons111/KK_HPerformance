@@ -69,6 +69,11 @@ namespace KK_HLoadCache
             new[] { "Lookat_dan", "LateUpdate" },
             new[] { "HSceneProc", "Update" },
             new[] { "HSceneProc", "LateUpdate" },
+            // v0.8.0: メタボール精液（射精エフェクト「詳細」）
+            new[] { "UpdateMeta", "LateUpdate" },
+            new[] { "FinalIKAfter", "LateUpdate" },
+            new[] { "MetaCollider", "Update" },
+            new[] { "MetaCollider", "FixedUpdate" },
         };
 
         private static readonly string[] AutoMethodNames = { "Update", "LateUpdate", "FixedUpdate", "OnGUI" };
