@@ -74,6 +74,7 @@ namespace KK_HLoadCache
             new[] { "FinalIKAfter", "LateUpdate" },
             new[] { "MetaCollider", "Update" },
             new[] { "MetaCollider", "FixedUpdate" },
+            new[] { "SkinnedCollisionHelper", "LateUpdate" },   // 当たり判定メッシュの毎フレーム作り直し（Rankou #428d の切り分け）
         };
 
         private static readonly string[] AutoMethodNames = { "Update", "LateUpdate", "FixedUpdate", "OnGUI" };
