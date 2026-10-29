@@ -139,7 +139,14 @@ namespace KK_HPerformance
                 if (!full.StartsWith(pluginsDir, StringComparison.OrdinalIgnoreCase)) continue;
                 Type[] types;
                 try { types = asm.GetTypes(); }
-                catch (ReflectionTypeLoadException e) { types = e.Types.Where(x => x != null).ToArray(); }
+                catch (ReflectionTypeLoadException)
+                {
+                    // 型の読み込みに失敗する DLL（例: KK_CyuVR＝VR 専用クラスを参照し非 VR では解決できない）は丸ごと外す。
+                    // 読めた型でもメソッド本体が欠けた型を参照していると Patch が IL Compile Error になり、しかも Harmony に
+                    // 登録だけ残って UnpatchSelf がそこで例外→以降のフックが外れずに残った（2026-10-29 実機）。
+                    _log.LogDebug($"[FrameProf] 型の読み込みに失敗する DLL を除外: {asm.GetName().Name}");
+                    continue;
+                }
                 catch { continue; }
                 bool any = false;
                 foreach (var type in types)
@@ -183,23 +190,35 @@ namespace KK_HPerformance
             }
         }
 
+        // 1メソッドずつ外す（UnpatchSelf は1つで例外を出すと残りを外さずに止まるため）。
         private static void Unpatch()
         {
-            try { _harmony?.UnpatchSelf(); }
-            catch (Exception e) { _log.LogWarning($"[FrameProf] フック解除で例外（要調査）: {e.Message}"); }
             _patched = false;
+            int removed = 0;
+            var failed = new List<string>();
+            if (_harmony != null)
+            {
+                foreach (var m in _stats.Keys.ToList())
+                {
+                    try { _harmony.Unpatch(m, HarmonyPatchType.All, _harmony.Id); removed++; }
+                    catch (Exception e) { failed.Add($"{m.DeclaringType?.FullName}.{m.Name}（{e.Message}）"); }
+                }
+            }
             _stack.Clear();
-            _log.LogInfo("[FrameProf] 計測 OFF（フックを全て解除）");
+            if (failed.Count > 0)
+                _log.LogWarning($"[FrameProf] フックを外せなかったメソッド {failed.Count} 件（OFF 中は何もしない＝負荷なし・要調査）: {string.Join(" / ", failed.ToArray())}");
+            _log.LogInfo($"[FrameProf] 計測 OFF（フック {removed} 件を解除）");
         }
 
         private static void Enter()
         {
+            if (!_patched) return;   // 外せずに残ったフックは何もしない
             _stack.Push(new Entry { Start = _sw.ElapsedTicks, Child = 0 });
         }
 
         private static Exception Exit(Exception __exception, MethodBase __originalMethod, object __instance)
         {
-            if (_stack.Count == 0) return __exception;
+            if (!_patched || _stack.Count == 0) return __exception;
             var e = _stack.Pop();
             long total = _sw.ElapsedTicks - e.Start;
             long self = total - e.Child;

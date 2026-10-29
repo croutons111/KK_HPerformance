@@ -2,13 +2,13 @@
 
 **English** | [日本語](README.ja.md)
 
-> A BepInEx plugin for Koikatsu that **shortens the freeze when an H position starts or changes** and **raises the FPS when many characters are on screen**.
+> A BepInEx plugin for Koikatsu that **shortens the freeze when an H position starts or changes** and **raises the FPS in H scenes**.
 
 ---
 
 ## Overview
 
-Koikatsu re-reads a lot of data from disk every time an H position starts or changes, so the whole screen stops for a moment — even in the unmodded game. With many characters on screen, hair / skirt / breast physics and the detailed semen effect can also pull the FPS down hard.
+Koikatsu re-reads a lot of data from disk every time an H position starts or changes, so the whole screen stops for a moment — even in the unmodded game. Hair / skirt / breast physics and the detailed semen effect also take a large share of each frame and pull the FPS down — the more characters there are (3P, Studio scenes), the bigger the effect.
 
 KK_HPerformance works on both:
 
