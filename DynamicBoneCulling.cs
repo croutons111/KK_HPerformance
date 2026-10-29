@@ -5,7 +5,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // v0.7.0: 画面に映っていないキャラの揺れ骨（DynamicBone / _Ver01 / _Ver02）を止める。
     //   v0.5.0 の計測で揺れ骨がメインスレッドの最大の消費者（19人で 9〜19ms/F）。映っていないキャラの分は誰にも見えない。
@@ -15,7 +15,7 @@ namespace KK_HLoadCache
     //   非表示のキャラ（visibleAll=false＝愛撫中の男・待機中の 3P 席等）も止める。
     internal static class DynamicBoneCulling
     {
-        private const string HarmonyId = "KK_HLoadCache.DynamicBoneCulling";
+        private const string HarmonyId = "KK_HPerformance.DynamicBoneCulling";
         private const float  HideDelay = 0.5f;     // 映っていない状態がこれだけ続いたら止める
         private const float  RescanSec = 1f;       // キャラ一覧の取り直し間隔
         private const float  LogSec    = 10f;

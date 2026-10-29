@@ -9,7 +9,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // フレームの重さを部品別に測る（v0.5.0）。キャラ（ゲスト）を増やすと FPS が落ちるのに CPU/GPU 使用率に余裕がある
     // ＝メインスレッド1本の頭打ち。その1本を誰がどれだけ使っているかを、本体のキャラ処理・各プラグインの毎フレーム処理に
@@ -20,7 +20,7 @@ namespace KK_HLoadCache
     // 集計は自分時間（フックしたメソッドの入れ子は親から引く）。コルーチンは測らない（未計測に入る）。
     internal static class FrameProfiler
     {
-        private const string HarmonyId = "KK_HLoadCache.FrameProfiler";
+        private const string HarmonyId = "KK_HPerformance.FrameProfiler";
 
         private static ConfigEntry<bool>  _enabled;
         private static ConfigEntry<float> _interval;
@@ -83,14 +83,14 @@ namespace KK_HLoadCache
         {
             _log = log;
             _hostEnabled = hostEnabled;
-            _enabled = cfg.Bind("Frame Profiler", "Enabled", false,
+            _enabled = cfg.Bind("Debug", "Frame Profiler", false,
                 "Diagnostic: measure how much of each frame goes to each part (the game's character processing such as hair/skirt physics and IK, "
                 + "and every plugin's per-frame updates), and log a summary every few seconds together with the FPS and the number of characters. "
                 + "For finding out why the FPS drops when more characters are on screen. Measuring itself costs a little FPS. "
                 + "Does not change any behavior. Applies immediately.");
-            _interval = cfg.Bind("Frame Profiler", "Report Interval (sec)", 5f,
+            _interval = cfg.Bind("Debug", "Frame Profiler Report Interval (sec)", 5f,
                 new ConfigDescription("How often the summary is logged.", new AcceptableValueRange<float>(1f, 60f)));
-            _topN = cfg.Bind("Frame Profiler", "Top N", 20,
+            _topN = cfg.Bind("Debug", "Frame Profiler Top N", 20,
                 new ConfigDescription("How many of the heaviest methods are listed in each summary.", new AcceptableValueRange<int>(5, 100)));
             host.AddComponent<FrameProfilerMonitor>();
         }

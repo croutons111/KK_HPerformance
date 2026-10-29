@@ -7,7 +7,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // 行為開始・体位変更で画面全体が止まる原因の計測（KK_Rankou #401/#401b から移設。バニラでも起きる）。
     //   本体の読み込み経路（AssetBundleManager / ChaControl.LoadAnimation / HSceneProc.ChangeAnimator）と
@@ -15,7 +15,7 @@ namespace KK_HLoadCache
     //   挙動は一切変えない。専用 Harmony インスタンスで手動パッチし、OFF で Unpatch＝負荷 0。
     internal static class LoadProfiler
     {
-        private const string HarmonyId = "KK_HLoadCache.Profiler";
+        private const string HarmonyId = "KK_HPerformance.Profiler";
 
         private static ConfigEntry<bool> _enabled;
         private static ConfigEntry<int>  _hitchMs;
@@ -29,14 +29,14 @@ namespace KK_HLoadCache
         {
             _log = log;
             _hostEnabled = hostEnabled;
-            _enabled = cfg.Bind("Profiler", "Enabled", false,
+            _enabled = cfg.Bind("Debug", "Load Profiler", false,
                 "Diagnostic: log how long asset bundle / animation loading takes and break down frames that freeze "
                 + "(e.g. when an H position starts or changes). Covers the game's own characters and characters driven by other plugins. "
                 + "Does not change any behavior. Applies immediately.");
-            _hitchMs = cfg.Bind("Profiler", "Hitch Threshold (ms)", 100,
+            _hitchMs = cfg.Bind("Debug", "Load Profiler Hitch Threshold (ms)", 100,
                 new ConfigDescription("A frame longer than this is reported with a breakdown of what was measured in it.",
                     new AcceptableValueRange<int>(20, 5000)));
-            _minLogMs = cfg.Bind("Profiler", "Min Log (ms)", 5,
+            _minLogMs = cfg.Bind("Debug", "Load Profiler Min Log (ms)", 5,
                 new ConfigDescription("Individual loads shorter than this are not logged (they still count in the frame breakdown).",
                     new AcceptableValueRange<int>(0, 1000)));
             host.AddComponent<LoadProfilerMonitor>();

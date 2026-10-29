@@ -6,7 +6,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // 段階 3a: H シーン中のアニメーションコントローラ（RuntimeAnimatorController）の読み込みをキャッシュする。
     //   本体 ChaControl.LoadAnimation / HSceneProc.ChangeAnimator は読んだ直後に UnloadAssetBundle(force) でバンドルを閉じる
@@ -19,7 +19,7 @@ namespace KK_HLoadCache
     {
         internal enum CacheLifetime { HScene, Session }
 
-        private const string HarmonyId = "KK_HLoadCache.Cache";
+        private const string HarmonyId = "KK_HPerformance.Cache";
 
         private static ConfigEntry<bool>          _enabled;
         private static ConfigEntry<CacheLifetime> _lifetime;

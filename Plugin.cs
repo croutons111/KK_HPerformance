@@ -3,18 +3,19 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
-    // H の体位開始・体位変更で画面全体が止まる問題の計測と対策（KK_Rankou #401 から分離）。
+    // H シーンの性能対策（体位開始/変更の停止＝読み込みキャッシュ・FPS＝揺れ骨/メタボール）と計測。KK_Rankou #401 から分離。
+    // 旧名 KK_HLoadCache（v0.9.0 で改名）。
     // 本体の読み込み経路（AssetBundleManager / ChaControl.LoadAnimation / GlobalMethod 等）に直接フックするので、
     // 本体のキャラ（ヒロイン）にも、本体の処理を呼んでいる他プラグイン（KK_Rankou のゲスト等）にも同じように効く。
     // 他プラグインへの依存・API は持たない。
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
-        public const string PluginGuid    = "KK_HLoadCache";
-        public const string PluginName    = "KK_HLoadCache";
-        public const string PluginVersion = "0.8.0";
+        public const string PluginGuid    = "KK_HPerformance";
+        public const string PluginName    = "KK_HPerformance";
+        public const string PluginVersion = "0.9.0";
 
         internal static new ManualLogSource Logger;
         internal static ConfigEntry<bool> MasterEnabled;

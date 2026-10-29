@@ -6,7 +6,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // 段階 3d: 表を探すときの「バンドルの中身の一覧」と「バンドル一覧」をキャッシュする。
     //   揺れ/汁/メタボール/愛撫可否の表（GlobalMethod.LoadAllFolder<T> / LoadAllFolderInOneFile<T>）と
@@ -22,7 +22,7 @@ namespace KK_HLoadCache
     //     キャッシュから返したときだけ Sideloader の postfix を飛ばす（_servedFromCache）。
     internal static class BundleLookupCache
     {
-        private const string HarmonyId = "KK_HLoadCache.BundleLookup";
+        private const string HarmonyId = "KK_HPerformance.BundleLookup";
         private const string SideloaderId = "com.bepis.bepinex.sideloader";
 
         [ThreadStatic] private static bool _servedFromCache;

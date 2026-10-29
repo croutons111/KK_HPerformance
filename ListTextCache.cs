@@ -5,7 +5,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // 段階 3c: 表の文字列（h/list 等）の読み込みをキャッシュする。
     //   GlobalMethod.LoadAllListText / LoadAllListTextFromList は毎回フォルダ内の全バンドルを列挙し、
@@ -15,7 +15,7 @@ namespace KK_HLoadCache
     //   キャッシュに入れる/返すのは H シーン中だけ。保持は起動中ずっと（短い文字列だけ・数 MB 程度）。
     internal static class ListTextCache
     {
-        private const string HarmonyId = "KK_HLoadCache.ListText";
+        private const string HarmonyId = "KK_HPerformance.ListText";
 
         private static ConfigEntry<bool> _enabled;
         private static ManualLogSource   _log;

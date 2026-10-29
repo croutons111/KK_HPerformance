@@ -4,7 +4,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // v0.6.0: 揺れ骨（DynamicBone / _Ver01 / _Ver02）の「追いつき計算」を1フレームN回までに制限する。
     //   本体 UpdateDynamicBones(t) は経過時間を貯めて 1/UpdateRate(=60) 秒ごとに1回計算し、1フレーム最大3回まで追いつく
@@ -13,7 +13,7 @@ namespace KK_HLoadCache
     //   60fps 以上ではもともと1回以下＝変化なし。低FPS時は揺れの時間がゆっくり進む（副作用）。
     internal static class DynamicBoneLimiter
     {
-        private const string HarmonyId = "KK_HLoadCache.DynamicBone";
+        private const string HarmonyId = "KK_HPerformance.DynamicBone";
 
         private static ConfigEntry<int> _maxSteps;
         private static ManualLogSource  _log;

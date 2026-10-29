@@ -7,7 +7,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace KK_HLoadCache
+namespace KK_HPerformance
 {
     // v0.8.0: 射精エフェクト「詳細」（メタボール精液）の負荷を下げる。
     //   本体は弾（Rigidbody）が1つでも動いている間、毎フレーム UpdateMeta.LateUpdate → StaticMetaballSeed.CreateMesh で
@@ -18,7 +18,7 @@ namespace KK_HLoadCache
     //   ★本体の処理なので、ヒロインにも、本体の部品を複製して使う他プラグインのキャラにも同じように効く。
     internal static class MetaballTuning
     {
-        private const string HarmonyId = "KK_HLoadCache.Metaball";
+        private const string HarmonyId = "KK_HPerformance.Metaball";
         private const float  SummarySec = 5f;
 
         private static ConfigEntry<int>   _interval;
